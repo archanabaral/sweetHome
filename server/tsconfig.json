@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "strict": true
+  }
+}
+//targert wil specify javascript version compiler will output,module allows us to refer to the  module manager to be used in the compiled js output, rootDir contains TS file outDir contains output of compilation
