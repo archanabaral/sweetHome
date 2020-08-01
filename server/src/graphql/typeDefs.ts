@@ -1,23 +1,24 @@
 import { gql } from "apollo-server-express";
 
+//didRequest field to indicate if we have already atempted to obtain viewer info
 export const typeDefs = gql`
-  type Listing {
-    id: ID!
-    title: String!
-    image: String!
-    address: String!
-    price: Int!
-    numOfGuests: Int!
-    numOfBeds: Int!
-    numOfBaths: Int!
-    rating: Int!
+  type Viewer {
+    id: ID
+    token: String
+    avatar: String
+    hasWallet: Boolean
+    didRequest: Boolean!
+  }
+  type Query {
+    authUrl: String
   }
 
-  type Query {
-    listings: [Listing!]!
-  }
+  # type Input {
+  #   code: String!
+  # }
 
   type Mutation {
-    deleteListing(id: ID!): Listing!
+    logIn(code: String): Viewer!
+    logOut: Viewer!
   }
 `;

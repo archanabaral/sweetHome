@@ -1,5 +1,12 @@
 import { ObjectId, Collection } from "mongodb";
 
+export interface Viewer {
+  _id?: string;
+  token?: string;
+  avatar?: string;
+  walletId?: string;
+  didRequest?: boolean;
+}
 export interface Booking {
   _id: ObjectId;
   listing: ObjectId; //one-one
@@ -36,6 +43,11 @@ export interface Listing {
   bookingsIndex: BookingsIndex;
   price: number;
   numOfGuests: number;
+  numOfBeds: number;
+  numOfBaths: number;
+  numOfStars: number;
+  numOfVotes: number;
+  rating: number;
 }
 export interface User {
   _id: string;
