@@ -13,7 +13,7 @@ export const typeDefs = gql`
     authUrl: String
   }
 
-  type LogInInput {
+  input LogInInput {
     code: String!
   }
 

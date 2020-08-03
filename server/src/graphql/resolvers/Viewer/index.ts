@@ -80,9 +80,10 @@ export const viewerResolvers: IResolvers = {
   },
   Mutation: {
     logIn: async (
-      { input }: LogInArgs,
-      { db }: { db: Database }
+       {input} : LogInArgs,
+      {db} : { db: Database }
     ): Promise<Viewer> => {
+
       try {
         const code = input ? input.code : null;
         const token = crypto.randomBytes(16).toString("hex");
