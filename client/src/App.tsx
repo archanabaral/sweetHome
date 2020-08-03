@@ -1,27 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import { Home, Host, Listing, NotFound, User, Listings } from "./sections";
+import { Layout } from "antd";
+import {
+  Home,
+  Host,
+  Listing,
+  NotFound,
+  User,
+  Listings,
+  Login,
+} from "./sections";
+import { Viewer } from "./lib/types";
 
 //creating a apollo client with ApolloClient constructor and passing in the uri of our graphql api
 const client = new ApolloClient({
   uri: "/api",
 });
 
+const initialViewer: Viewer = {
+  id: null,
+  token: null,
+  avatar: null,
+  hasWallet: null,
+  didRequest: false,
+};
+
 //connect our apollo client with react application this is done by ApolloProvider
 function App() {
+  const [viewer, setViewer] = useState<Viewer>(initialViewer);
   return (
     <ApolloProvider client={client}>
       <Router>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/host" component={Host} />
-          <Route exact path="/listing/:id" component={Listing} />
-          <Route exact path="/listings/:location" component={Listings} />
-          <Route exact path="/user/:id" component={User} />
-          <Route component={NotFound} />
-        </Switch>
+        <Layout id="app">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/host" component={Host} />
+            <Route exact path="/listing/:id" component={Listing} />
+            <Route exact path="/listings/:location" component={Listings} />
+            <Route exact path="/user/:id" component={User} />
+            <Route
+              exact
+              path="/login"
+              render={(props) => <Login {...props} setViewer={setViewer} />}
+            />
+            <Route component={NotFound} />
+          </Switch>
+        </Layout>
       </Router>
     </ApolloProvider>
   );

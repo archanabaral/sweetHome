@@ -13,12 +13,12 @@ export const typeDefs = gql`
     authUrl: String
   }
 
-  # type Input {
-  #   code: String!
-  # }
+  type LogInInput {
+    code: String!
+  }
 
   type Mutation {
-    logIn(code: String): Viewer!
+    logIn(input: LogInInput): Viewer!
     logOut: Viewer!
   }
 `;

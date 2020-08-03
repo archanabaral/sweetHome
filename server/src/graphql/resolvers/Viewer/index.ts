@@ -13,7 +13,7 @@ const logInViaGoogle = async (
   if (!user) {
     throw new Error("Google login error");
   }
-  const userNameList = user.names && user.names.length ? user.names : null;
+  const userNameList = user?.names
   const userPhotoList = user.photos && user.photos.length ? user.photos : null;
   const userEmailList =
     user.emailAddresses && user.emailAddresses.length
@@ -25,7 +25,7 @@ const logInViaGoogle = async (
   const userId =
     userNameList && userNameList[0].metadata && userNameList[0].metadata.source
       ? userNameList[0].metadata.source.id
-      : null;
+      : null; 
 
   const userAvatar =
     userPhotoList && userPhotoList[0].url ? userPhotoList[0].url : null;

@@ -6,8 +6,8 @@ import { google } from "googleapis";
 //first configure new auth object with clientid clientsecret and redirect url
 
 const auth = new google.auth.OAuth2(
-  process.env.CLIENT_ID,
-  process.env.CLIENT_SECRET,
+  process.env.G_CLIENT_ID,
+  process.env.G_CLIENT_SECRET,
   `${process.env.PUBLIC_URL}/login`
 );
 
