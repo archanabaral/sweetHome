@@ -30,7 +30,7 @@ export const Login = ({ setViewer }: Props) => {
  
   //useRef return object with current property
   const logInRef = useRef(logIn);
-//login will not be dependency since login function is instanciated within the component and if the component ever re-render the new version of login function will be established which may cause our useeffect hook to run again so we use useref hook and now this logInRef.current will refrence the original function regardless of how many render happens 
+// login will not be dependency since login function is instanciated within the component and if the component ever re-render the new version of login function will be established which may cause our useeffect hook to run again so we use useref hook and now this logInRef.current will refrence the original function regardless of how many render happens 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get("code");
     if (code) {
