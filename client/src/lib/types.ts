@@ -3,5 +3,5 @@ export interface Viewer {
   token: string | null;
   avatar: string | null;
   hasWallet: boolean | null;
-  didRequest: boolean ;
+  didRequest: boolean;
 }

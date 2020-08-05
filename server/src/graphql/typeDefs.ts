@@ -1,6 +1,7 @@
 import { gql } from "apollo-server-express";
 
 //didRequest field to indicate if we have already atempted to obtain viewer info
+
 export const typeDefs = gql`
   type Viewer {
     id: ID
@@ -9,12 +10,13 @@ export const typeDefs = gql`
     hasWallet: Boolean
     didRequest: Boolean!
   }
-  type Query {
-    authUrl: String
-  }
 
   input LogInInput {
     code: String!
+  }
+
+  type Query {
+    authUrl: String!
   }
 
   type Mutation {

@@ -30,6 +30,7 @@ const initialViewer: Viewer = {
 //connect our apollo client with react application this is done by ApolloProvider
 function App() {
   const [viewer, setViewer] = useState<Viewer>(initialViewer);
+  console.log(viewer)
   return (
     <ApolloProvider client={client}>
       <Router>

@@ -30,7 +30,7 @@ export const Google = {
     //now we use configured auth object to make a request to people api to get the user information
     const { data } = await google.people({ version: "v1", auth }).people.get({
       resourceName: "people/me",
-      personFields: "emailAddresses, names, photos",
+      personFields: "emailAddresses,names,photos",
     });
     return { user: data };
   },

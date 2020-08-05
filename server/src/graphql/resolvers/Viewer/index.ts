@@ -13,29 +13,37 @@ const logInViaGoogle = async (
   if (!user) {
     throw new Error("Google login error");
   }
-  const userNameList = user?.names
-  const userPhotoList = user.photos && user.photos.length ? user.photos : null;
-  const userEmailList =
+
+  //Names//Photos//Email Lists
+  const userNamesList = user.names && user.names.length ? user.names : null;
+  const userPhotosList = user.photos && user.photos.length ? user.photos : null;
+  const userEmailsList =
     user.emailAddresses && user.emailAddresses.length
       ? user.emailAddresses
       : null;
 
-  const userName = userNameList ? userNameList[0].displayName : null;
+  //User Display Name
+  const userName = userNamesList ? userNamesList[0].displayName : null;
 
+  //User Id
   const userId =
-    userNameList && userNameList[0].metadata && userNameList[0].metadata.source
-      ? userNameList[0].metadata.source.id
-      : null; 
+    userNamesList &&
+    userNamesList[0].metadata &&
+    userNamesList[0].metadata.source
+      ? userNamesList[0].metadata.source.id
+      : null;
 
+  //User Avatar
   const userAvatar =
-    userPhotoList && userPhotoList[0].url ? userPhotoList[0].url : null;
+    userPhotosList && userPhotosList[0].url ? userPhotosList[0].url : null;
 
+  // User Email
   const userEmail =
-    userEmailList && userEmailList[0].value ? userEmailList[0].value : null;
+    userEmailsList && userEmailsList[0].value ? userEmailsList[0].value : null;
 
-  if (!userId || !userName || !userAvatar || !userEmail) {
-    throw new Error("Google login error");
-  }
+    if (!userId || !userName || !userAvatar || !userEmail) {
+      throw new Error("Google login error");
+    }
 
   const updateRes = await db.users.findOneAndUpdate(
     { _id: userId },
@@ -80,10 +88,10 @@ export const viewerResolvers: IResolvers = {
   },
   Mutation: {
     logIn: async (
-       {input} : LogInArgs,
-      {db} : { db: Database }
+      _root: undefined,
+      { input }: LogInArgs,
+      { db }: { db: Database }
     ): Promise<Viewer> => {
-
       try {
         const code = input ? input.code : null;
         const token = crypto.randomBytes(16).toString("hex");
