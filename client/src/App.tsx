@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import { Layout } from "antd";
+import { Layout, Affix } from "antd";
 import {
+  AppHeader,
   Home,
   Host,
   Listing,
@@ -30,11 +31,14 @@ const initialViewer: Viewer = {
 //connect our apollo client with react application this is done by ApolloProvider
 function App() {
   const [viewer, setViewer] = useState<Viewer>(initialViewer);
-  console.log(viewer)
+  console.log(viewer);
   return (
     <ApolloProvider client={client}>
       <Router>
         <Layout id="app">
+          <Affix offsetTop={0} className="app__affix-header">
+            <AppHeader />
+          </Affix>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/host" component={Host} />

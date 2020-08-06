@@ -24,10 +24,10 @@
 }
 .app-header__logo {
   display: inline-block;
-  padding: 0 20px;
+  padding: 0 10px;
 }
 .app-header__logo img {
-  width: 36px;
+  width: 70px;
 }
 .app-header__search-input {
   display: flex;
