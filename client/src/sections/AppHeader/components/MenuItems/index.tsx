@@ -1,20 +1,41 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Menu ,} from "antd";
+import { Button,  Menu , Avatar } from "antd";
+import { LogoutOutlined, UserOutlined, HomeOutlined } from "@ant-design/icons";
+import { Viewer } from "../../../../lib/types";
+
+interface Props {
+  viewer: Viewer;
+}
 
 const { Item, SubMenu } = Menu;
 
-export const MenuItems = () => {
+export const MenuItems = ({ viewer }: Props) => {
+  const subMenuLogin = viewer.id && viewer.avatar ? (
+    <SubMenu title={<Avatar src={viewer.avatar} />}>
+      <Item key="/user">
+        <UserOutlined/>
+        Profile</Item>
+      <Item key="/logout">
+        <LogoutOutlined />
+        LogOut</Item>
+    </SubMenu>
+  ) : (
+    <Item>
+      <Link to="/login">
+        <Button type="primary">Sign In</Button>
+      </Link>
+    </Item>
+  );
+
   return (
     <Menu mode="horizontal" selectable={false} className="menu">
       <Item key="/host">
-        <Link to="/host">Host</Link>
+        <Link to="/host">
+          <HomeOutlined />
+          Host</Link>
       </Item>
-      <Item>
-        <Link to="/login">
-          <Button type="primary">Sign In</Button>
-        </Link>
-      </Item>
+      {subMenuLogin}
     </Menu>
   );
 };

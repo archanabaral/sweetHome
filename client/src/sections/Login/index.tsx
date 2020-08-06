@@ -104,7 +104,7 @@ export const Login = ({ setViewer }: Props) => {
         </button>
         <Text type="secondary">
           Note: By signing in , you'll be redirected to the Google consent form
-          to sign in with your google account.{" "}
+          to sign in with your google account.
         </Text>
       </Card>
     </Content>
