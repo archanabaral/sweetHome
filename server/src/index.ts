@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 //though node vastly support es6 features it actually dosenot support import syntax but with TS, it compile a code to valid es6 code that node recognizes i.e with Ts we can use import syntax to import libaries
 import express, { Application } from "express";
-
+import cookieParser from "cookie-parser";
 import { ApolloServer } from "apollo-server-express";
 import { typeDefs, resolvers } from "./graphql";
 import { connectdb } from "./database";
@@ -12,10 +12,13 @@ import { connectdb } from "./database";
 
 const mount = async (app: Application) => {
   const db = await connectdb();
+
+  app.use(cookieParser(process.env.SECRET));
+
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: () => ({ db }),
+    context: ({ req, res }) => ({ db, req, res }),
   });
   server.applyMiddleware({ app, path: "/api" });
 
