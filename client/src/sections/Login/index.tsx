@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import {Redirect} from "react-router-dom"
+import { Redirect } from "react-router-dom";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
-import { Card, Layout,Spin, Typography } from "antd";
+import { Card, Layout, Spin, Typography } from "antd";
 import { Viewer } from "../../lib/types";
 import { LOG_IN } from "../../lib/graphql/mutations/login/index";
 import {
@@ -10,8 +10,11 @@ import {
 } from "../../lib/graphql/mutations/login/__generated__/LogIn";
 import { AUTH_URL } from "../../lib/graphql/queries/AuthUrl/index";
 import { AuthUrl as AuthUrlData } from "../../lib/graphql/queries/AuthUrl/__generated__/AuthUrl";
-import {ErrorBanner} from "../../lib/components/ErrorBanner"
-import {displaySuccessNotification ,displayErrorMessage} from "../../lib/utils/index"
+import { ErrorBanner } from "../../lib/components/ErrorBanner";
+import {
+  displaySuccessNotification,
+  displayErrorMessage,
+} from "../../lib/utils/index";
 //image assets
 import googleLogo from "./assests/google.png";
 
@@ -30,9 +33,10 @@ export const Login = ({ setViewer }: Props) => {
     { data: logInData, loading: logInLoading, error: logInError },
   ] = useMutation<LogInData, LogInVariables>(LOG_IN, {
     onCompleted: (data) => {
-      if (data && data.logIn) {
+      if (data && data.logIn && data.logIn.token) {
         setViewer(data.logIn);
-        displaySuccessNotification("You've Successfully logged in !")
+        sessionStorage.setItem("token", data.logIn.token);
+        displaySuccessNotification("You've Successfully logged in !");
       }
     },
   });
@@ -46,8 +50,8 @@ export const Login = ({ setViewer }: Props) => {
     if (code) {
       logInRef.current({
         variables: {
-          input: {code}
-        }
+          input: { code },
+        },
       });
     }
   }, []);
@@ -60,24 +64,26 @@ export const Login = ({ setViewer }: Props) => {
 
       window.location.href = data.authUrl;
     } catch {
-      displayErrorMessage("Sorry! We weren't able to log you in, please try again later")
+      displayErrorMessage(
+        "Sorry! We weren't able to log you in, please try again later"
+      );
     }
   };
-  if(logInLoading){
-    return(
-      <Content className="log-in" >
+  if (logInLoading) {
+    return (
+      <Content className="log-in">
         <Spin size="large" tip="Logging you in..." />
-        </Content>
-    )
+      </Content>
+    );
   }
-  if(logInData && logInData.logIn){
-    const {id:viewerId} = logInData.logIn
-    return<Redirect to = {`/user/${viewerId}`}/>
+  if (logInData && logInData.logIn) {
+    const { id: viewerId } = logInData.logIn;
+    return <Redirect to={`/user/${viewerId}`} />;
   }
 
-  const logInErrorBannerElement = logInError? (
-    <ErrorBanner description="Sorry! We weren't able to log you in, please try again later"/>
-  ):null
+  const logInErrorBannerElement = logInError ? (
+    <ErrorBanner description="Sorry! We weren't able to log you in, please try again later" />
+  ) : null;
 
   return (
     <Content className="log-in">

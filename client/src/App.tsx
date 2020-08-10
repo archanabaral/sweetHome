@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider, useMutation } from "react-apollo";
+
+import { useMutation } from "react-apollo";
 import { Layout, Affix, Spin } from "antd";
 import {
   AppHeader,
@@ -21,11 +21,6 @@ import {
 } from "./lib/graphql/mutations/login/__generated__/LogIn";
 import { AppHeaderSkeleton, ErrorBanner } from "./lib/components";
 
-//creating a apollo client with ApolloClient constructor and passing in the uri of our graphql api
-const client = new ApolloClient({
-  uri: "/api",
-});
-
 const initialViewer: Viewer = {
   id: null,
   token: null,
@@ -34,7 +29,6 @@ const initialViewer: Viewer = {
   didRequest: false,
 };
 
-
 function App() {
   const [viewer, setViewer] = useState<Viewer>(initialViewer);
   console.log(viewer);
@@ -42,6 +36,12 @@ function App() {
     onCompleted: (data) => {
       if (data && data.logIn) {
         setViewer(data.logIn);
+
+        if (data.logIn.token) {
+          sessionStorage.setItem("token", data.logIn.token);
+        } else {
+          sessionStorage.removeItem("token");
+        }
       }
     },
   });
@@ -66,30 +66,27 @@ function App() {
   ) : null;
 
   return (
-    //connect our apollo client with react application this is done by ApolloProvider
-    <ApolloProvider client={client}>
-      <Router>
-        <Layout id="app">
-          {logInError}
-          <Affix offsetTop={0} className="app__affix-header">
-            <AppHeader viewer={viewer} setViewer={setViewer} />
-          </Affix>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/host" component={Host} />
-            <Route exact path="/listing/:id" component={Listing} />
-            <Route exact path="/listings/:location" component={Listings} />
-            <Route exact path="/user/:id" component={User} />
-            <Route
-              exact
-              path="/login"
-              render={(props) => <Login {...props} setViewer={setViewer} />}
-            />
-            <Route component={NotFound} />
-          </Switch>
-        </Layout>
-      </Router>
-    </ApolloProvider>
+    <Router>
+      <Layout id="app">
+        {logInError}
+        <Affix offsetTop={0} className="app__affix-header">
+          <AppHeader viewer={viewer} setViewer={setViewer} />
+        </Affix>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/host" component={Host} />
+          <Route exact path="/listing/:id" component={Listing} />
+          <Route exact path="/listings/:location" component={Listings} />
+          <Route exact path="/user/:id" component={User} />
+          <Route
+            exact
+            path="/login"
+            render={(props) => <Login {...props} setViewer={setViewer} />}
+          />
+          <Route component={NotFound} />
+        </Switch>
+      </Layout>
+    </Router>
   );
 }
 
