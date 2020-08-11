@@ -32,6 +32,15 @@ export const User = ({
       </Content>
     )
   }
+  
+  if (error) {
+    return (
+      <Content className="user">
+        <ErrorBanner description="This user may not exist or we've encountered an error. Please try again soon." />
+        <PageSkeleton />
+      </Content>
+    );
+  }
   const user = data ? data.user : null;
   const viewerIsUser = viewer.id === match.params.id;
   const userProfileElement = user ? (
