@@ -9,6 +9,7 @@ import {
 } from "../../lib/graphql/queries/User/__generated__/User";
 import { UserProfile } from "./components";
 import { Viewer } from "../../lib/types";
+import {ErrorBanner,PageSkeleton} from "../../lib/components"
 interface MatchParams {
   id: string;
 }
@@ -24,6 +25,13 @@ export const User = ({
     variables: { id: match.params.id },
   });
 
+  if(loading){
+    return (
+      <Content className="user">
+      <PageSkeleton />
+      </Content>
+    )
+  }
   const user = data ? data.user : null;
   const viewerIsUser = viewer.id === match.params.id;
   const userProfileElement = user ? (

@@ -23,14 +23,15 @@ export const UserProfile = ({ viewerIsUser, user }: Props) => {
           Connect with Stripe!
         </Button>
         <Paragraph type="secondary">
-          TinyHouse uses
+          TinyHouse uses{" "}
           <a
             href="https://stripe.com/en-US/connect"
             target="_blank"
             rel="noopener noreferrer"
           >
             Stripe
-          </a>
+          </a>{" "}
+
           to help transfer your earnings in a secure and trusted manner.
         </Paragraph>
       </div>
