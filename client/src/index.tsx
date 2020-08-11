@@ -4,7 +4,6 @@ import App from "./App";
 import "./styles/index.css";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import Operation from "antd/lib/transfer/operation";
 
 //creating a apollo client with ApolloClient constructor and passing in the uri of our graphql api
 const client = new ApolloClient({
@@ -21,7 +20,7 @@ const client = new ApolloClient({
 //connect our apollo client with react application this is done by ApolloProvider
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />/
+    <App />
   </ApolloProvider>,
   document.getElementById("root")
 );

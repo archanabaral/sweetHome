@@ -1,4 +1,4 @@
-import {Response, Request} from "express"
+import { Response, Request } from "express";
 import { IResolvers } from "apollo-server-express";
 import crypto from "crypto";
 import { Viewer, Database, User } from "../../../lib/types";
@@ -16,7 +16,7 @@ const logInViaGoogle = async (
   code: string,
   token: string,
   db: Database,
-  res:Response
+  res: Response
 ): Promise<User | undefined> => {
   const { user } = await Google.logIn(code);
   if (!user) {
@@ -83,28 +83,31 @@ const logInViaGoogle = async (
     viewer = insertResult.ops[0];
   }
 
-  res.cookie("viewer", userId,{
+  res.cookie("viewer", userId, {
     ...cookieOptions,
-    maxAge: 365 * 24 * 60 * 60 * 1000//cookie expiration
-  })
+    maxAge: 365 * 24 * 60 * 60 * 1000, //cookie expiration
+  });
   return viewer;
 };
 
-const logInViaCookie = async(token:string , db:Database , req:Request , res:Response) :Promise<User | undefined> => {
+const logInViaCookie = async (
+  token: string,
+  db: Database,
+  req: Request,
+  res: Response
+): Promise<User | undefined> => {
   const updateRes = await db.users.findOneAndUpdate(
-    {_id:req.signedCookies.viewer},
-     {$set: {token}},
-     {returnOriginal:false}
-
-  )
+    { _id: req.signedCookies.viewer },
+    { $set: { token } },
+    { returnOriginal: false }
+  );
   const viewer = updateRes.value;
 
-  if(!viewer) {
-    res.clearCookie("viewer", cookieOptions)
+  if (!viewer) {
+    res.clearCookie("viewer", cookieOptions);
   }
-  return viewer
-
-}
+  return viewer;
+};
 
 export const viewerResolvers: IResolvers = {
   Query: {
@@ -120,7 +123,7 @@ export const viewerResolvers: IResolvers = {
     logIn: async (
       _root: undefined,
       { input }: LogInArgs,
-      { db, req,res }: { db: Database; req:Request; res:Response }
+      { db, req, res }: { db: Database; req: Request; res: Response }
     ): Promise<Viewer> => {
       try {
         const code = input ? input.code : null;
@@ -144,9 +147,13 @@ export const viewerResolvers: IResolvers = {
       }
     },
     // eslint-disable-next-line @typescript-eslint/ban-types
-    logOut: (_root:undefined, _args:{}, {res}: {res:Response}): Viewer => {
+    logOut: (
+      _root: undefined,
+      _args: {},
+      { res }: { res: Response }
+    ): Viewer => {
       try {
-        res.clearCookie("viewer" , cookieOptions)
+        res.clearCookie("viewer", cookieOptions);
 
         return { didRequest: true };
       } catch (error) {

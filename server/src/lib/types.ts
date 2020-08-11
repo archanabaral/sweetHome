@@ -43,11 +43,6 @@ export interface Listing {
   bookingsIndex: BookingsIndex;
   price: number;
   numOfGuests: number;
-  numOfBeds: number;
-  numOfBaths: number;
-  numOfStars: number;
-  numOfVotes: number;
-  rating: number;
 }
 export interface User {
   _id: string;
@@ -59,6 +54,7 @@ export interface User {
   income: number;
   bookings: ObjectId[]; //one user has many bookings one to many relation
   listings: ObjectId[]; //same
+  authorized?: boolean;
 }
 export interface Database {
   bookings: Collection<Booking>;
