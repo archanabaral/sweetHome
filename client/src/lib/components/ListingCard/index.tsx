@@ -8,7 +8,7 @@ interface Props {
     title: string;
     image: string;
     address: string;
-    price: string;
+    price: number;
     numOfGuests: number;
   };
 }
