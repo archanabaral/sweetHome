@@ -146,9 +146,9 @@ export const viewerResolvers: IResolvers = {
         throw new Error(`Failed to login ${error}`);
       }
     },
-    // eslint-disable-next-line @typescript-eslint/ban-types
     logOut: (
       _root: undefined,
+      // eslint-disable-next-line @typescript-eslint/ban-types
       _args: {},
       { res }: { res: Response }
     ): Viewer => {
