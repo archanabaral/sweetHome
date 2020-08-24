@@ -1,8 +1,8 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import { Avatar, Divider, Tag, Typography } from "antd";
 import { EnvironmentOutlined } from "@ant-design/icons";
-
+import { iconColor } from "../../../../lib/utils/index";
 import { Listing as ListingData } from "../../../../lib/graphql/queries/Listing/__generated__/Listing";
 
 interface Props {
@@ -36,8 +36,10 @@ export const ListingDetails = ({ listing }: Props) => {
           ellipsis
           className="listing-details__city-address"
         >
-          <EnvironmentOutlined />
-          {city}
+          <Link to={`/listings/${city}`}>
+            <EnvironmentOutlined style={{ color: iconColor }} />
+            {city}
+          </Link>
           <Divider type="vertical" />
           {address}
         </Paragraph>
@@ -46,11 +48,15 @@ export const ListingDetails = ({ listing }: Props) => {
         </Title>
       </div>
 
+      <Divider />
+
       <div className="listing-details__section">
-        <Avatar src={host.avatar} size={64} />
-        <Title level={2} className="listing-details__host-name">
-          {host.name}
-        </Title>
+        <Link to={`/user/${host.id}`}>
+          <Avatar src={host.avatar} size={64} />
+          <Title level={2} className="listing-details__host-name">
+            {host.name}
+          </Title>
+        </Link>
       </div>
 
       <Divider />
