@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon src/index.ts",
     "build": "tsc -p ./",
-    "seed": "ts-node src/temp/seed.ts"
+    "seed": "ts-node src/temp/seed.ts",
+    "clear":"ts-node src/temp/clear.ts"
   },
   "keywords": [],
   "author": "",
