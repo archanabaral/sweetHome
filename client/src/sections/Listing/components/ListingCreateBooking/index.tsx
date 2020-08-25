@@ -41,6 +41,9 @@ export const ListingCreateBooking = ({
     setCheckOutDate(selectedCheckOutDate);
   };
 
+  const checkOutInputDisable = !checkInDate;
+  const buttonDisabled = !checkInDate || !checkOutDate;
+
   return (
     <div className="listing-booking">
       <Card className="listing-booking__card">
@@ -57,20 +60,26 @@ export const ListingCreateBooking = ({
             <DatePicker
               value={checkInDate}
               disabledDate={disabledDate}
+              showToday={false}
               onChange={(dateValue) => setCheckInDate(dateValue)}
+              onOpenChange={() => setCheckOutDate(null)}
             />
           </div>
           <div className="listing-booking__card-date-picker">
             <Paragraph strong>Check Out</Paragraph>
             <DatePicker
               value={checkOutDate}
+              disabled={checkOutInputDisable}
+              showToday={false}
               disabledDate={disabledDate}
               onChange={(dateValue) => verifyAndSetCheckOutDate(dateValue)}
+            
             />
           </div>
         </div>
         <Divider />
         <Button
+          disabled={buttonDisabled}
           size="large"
           type="primary"
           className="listing-booking__card-cta"
