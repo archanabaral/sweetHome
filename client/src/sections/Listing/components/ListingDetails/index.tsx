@@ -26,7 +26,7 @@ export const ListingDetails = ({ listing }: Props) => {
   return (
     <div className="listing-details">
       <div
-        style={{ backgroundImage: `url{${image}}` }}
+        style={{ backgroundImage: `url(${image})` }}
         className="listing-details__image"
       />
 
