@@ -1,7 +1,7 @@
 import React from "react";
 import moment, { Moment } from "moment";
 import { DatePicker, Button, Card, Divider, Typography } from "antd";
-import { formatListingPrice } from "../../../../lib/utils";
+import { displayErrorMessage, formatListingPrice } from "../../../../lib/utils";
 
 const { Paragraph, Text, Title } = Typography;
 
@@ -13,15 +13,6 @@ interface Props {
   setCheckOutDate: (checkOutDate: Moment | null) => void;
 }
 
-const disabledDate = (currentDate: Moment) => {
-  if (currentDate) {
-    const dateBeforeToday = currentDate.isBefore(moment().endOf("day"));
-    return dateBeforeToday;
-  } else {
-    return false;
-  }
-};
-
 export const ListingCreateBooking = ({
   price,
   checkInDate,
@@ -29,6 +20,27 @@ export const ListingCreateBooking = ({
   setCheckInDate,
   setCheckOutDate,
 }: Props) => {
+  const disabledDate = (currentDate: Moment) => {
+    if (currentDate) {
+      const dateBeforeToday = currentDate.isBefore(moment().endOf("day"));
+      return dateBeforeToday;
+    } else {
+      return false;
+    }
+  };
+
+  const verifyAndSetCheckOutDate = (selectedCheckOutDate: Moment | null) => {
+    //since checkInDate and selectedCheckOutDate can be null we first check if it is actually defined then we check for if checkOut date is of before checkInDate, if yes return error
+    if (checkInDate && selectedCheckOutDate) {
+      if (moment(selectedCheckOutDate).isBefore(checkInDate, "days")) {
+        return displayErrorMessage(
+          `You can't book date of check out to be prior to check in!`
+        );
+      }
+    }
+    setCheckOutDate(selectedCheckOutDate);
+  };
+
   return (
     <div className="listing-booking">
       <Card className="listing-booking__card">
@@ -53,7 +65,7 @@ export const ListingCreateBooking = ({
             <DatePicker
               value={checkOutDate}
               disabledDate={disabledDate}
-              onChange={(dateValue) => setCheckOutDate(dateValue)}
+              onChange={(dateValue) => verifyAndSetCheckOutDate(dateValue)}
             />
           </div>
         </div>
