@@ -37,6 +37,7 @@ export const listingResolvers: IResolvers = {
     },
 
     listings: async (
+      _root: undefined,
       { filter, limit, page }: ListingsArgs,
       { db }: { db: Database }
     ): Promise<ListingsData> => {
@@ -47,6 +48,7 @@ export const listingResolvers: IResolvers = {
         };
 
         let cursor = await db.listings.find({});
+        
 
         if (filter && filter === ListingFilter.PRICE_LOW_TO_HIGH) {
           cursor = cursor.sort({ price: 1 });
