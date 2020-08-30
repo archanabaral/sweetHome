@@ -36,14 +36,14 @@ export interface Listing {
   host: string; //or owner //one to one
   type: ListingType;
   address: string;
-  admin: string;
   country: string;
+  admin: string;
   city: string;
   bookings: ObjectId[];
   bookingsIndex: BookingsIndex;
   price: number;
   numOfGuests: number;
-  authorized?: boolean; 
+  authorized?: boolean;
 }
 export interface User {
   _id: string;
