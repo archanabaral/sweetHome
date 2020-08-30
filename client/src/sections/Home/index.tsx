@@ -25,7 +25,7 @@ export const Home = ({ history }: RouteComponentProps) => {
       variables: { filter: ListingFilter.PRICE_HIGH_TO_LOW, limit: 4, page: 1 },
     }
   );
-  console.log(data)
+
   const renderListingsSection = () => {
     if (loading) {
       return <HomeListingsSkeleton />;
@@ -73,7 +73,7 @@ export const Home = ({ history }: RouteComponentProps) => {
           Popular listings in the United States
         </Link>
       </div>
-      <Divider />
+      
       {renderListingsSection()}
       <div>
         <Title level={4} className="home__listings-title">
