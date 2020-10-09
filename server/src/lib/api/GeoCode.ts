@@ -5,8 +5,8 @@ const maps = createClient({
   Promise: Promise, //the value here is actual promise constructor itself
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const parseAddress = (addressComponents: AddressComponent<any>[]) => {
+
+const parseAddress = (addressComponents: AddressComponent<string>[]) => {
   let country = null;
   let admin = null;
   let city = null;
@@ -28,13 +28,14 @@ const parseAddress = (addressComponents: AddressComponent<any>[]) => {
     }
   }
 
+  console.log(city);
   return { country, admin, city };
 };
 
 export const GeoCode = {
   geoCode: async (address: string) => {
     const res = await maps.geocode({ address }).asPromise();
-
+  
     if (res.status < 200 || res.status > 299) {
       throw new Error("Failed to geocode address");
     }

@@ -28,6 +28,7 @@ export interface ListingsArgs {
 export interface ListingsData {
   total: number;
   result: Listing[];
+  
 }
 
 export interface ListingsQuery {
